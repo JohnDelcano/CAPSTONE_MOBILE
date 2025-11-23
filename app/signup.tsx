@@ -682,6 +682,7 @@ const pickAndUploadProfileImage = async () => {
   <TextInput
             ref={firstRef}
             placeholder="First Name"
+             placeholderTextColor="#888"
             value={profile.fname}
             onChangeText={t => {
               setProfile({ ...profile, fname: t });
@@ -694,6 +695,7 @@ const pickAndUploadProfileImage = async () => {
           <TextInput
             ref={lastRef}
             placeholder="Last Name"
+             placeholderTextColor="#888"
             value={profile.lname}
             onChangeText={t => {
               setProfile({ ...profile, lname: t });
@@ -725,6 +727,7 @@ const pickAndUploadProfileImage = async () => {
   <TextInput
   ref={phoneRef}
   placeholder="Phone"
+   placeholderTextColor="#888"
   value={profile.phone}
   onChangeText={t => {
     setProfile({ ...profile, phone: t.replace(/[^0-9]/g, '') });
@@ -740,6 +743,7 @@ const pickAndUploadProfileImage = async () => {
           <TextInput
             ref={addressRef}
             placeholder="Address"
+             placeholderTextColor="#888"
             value={profile.address}
             onChangeText={t => {
               setProfile({ ...profile, address: t });
@@ -751,6 +755,7 @@ const pickAndUploadProfileImage = async () => {
           <TextInput
             ref={gradeRef}
             placeholder="Grade/Year level"
+             placeholderTextColor="#888"
             value={grade}
             onChangeText={t => {
               setGrade(t);
@@ -773,6 +778,7 @@ const pickAndUploadProfileImage = async () => {
            <TextInput
             ref={emergencynameRef}
             placeholder="Emergency Contact Name"
+             placeholderTextColor="#888"
             value={emergencyContactName}
             onChangeText={t => {
               setEmergencyContactName(t);
@@ -784,6 +790,7 @@ const pickAndUploadProfileImage = async () => {
   <TextInput
   ref={emergencyRef}
   placeholder="Emergency Contact Phone"
+  placeholderTextColor="#888"
   value={emergencyContactPhone}
   onChangeText={t => {
     setEmergencyContactPhone(t.replace(/[^0-9]/g, ''));
