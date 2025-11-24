@@ -767,6 +767,7 @@ const pickAndUploadProfileImage = async () => {
           <TextInput
             ref={schoolRef}
             placeholder="School"
+            placeholderTextColor="#888"
             value={school}
             onChangeText={t => {
               setSchool(t);
