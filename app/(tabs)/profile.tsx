@@ -223,12 +223,12 @@ const Profile = () => {
         <Text className="text-white font-bold text-2xl">
           {user.firstName} {user.lastName}
         </Text>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => setQrModalVisible(true)}
           className="bg-white/20 px-4 py-2 mt-3 rounded-lg"
         >
           <Text className="text-white font-semibold">View QR Code</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </LinearGradient>
 
       <View className="px-6 py-8">
