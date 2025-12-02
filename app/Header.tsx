@@ -115,49 +115,65 @@ export default function Header() {
       </View>
 
       {/* Modal for search */}
-      <Modal visible={modalVisible} animationType="slide" transparent>
-        <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)", padding: 20 }}>
-          <View
+      {/* Modal for search */}
+<Modal visible={modalVisible} animationType="slide" transparent>
+  <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)", padding: 20 }}>
+    <View
+      style={{
+        backgroundColor: "white",
+        borderRadius: 10,
+        padding: 16,
+        flex: 1,
+      }}
+    >
+      {/* Close button */}
+      <TouchableOpacity
+        onPress={() => setModalVisible(false)}
+        style={{
+          alignSelf: "flex-end",
+          marginBottom: 10,
+          padding: 4,
+        }}
+      >
+        <Text style={{ fontSize: 16, fontWeight: "bold", color: "#555" }}>Close ✕</Text>
+      </TouchableOpacity>
+
+      <TextInput
+        autoFocus
+        placeholder="Search by title or author..."
+        value={searchQuery}
+        onChangeText={handleSearchChange}
+        style={{
+          height: 40,
+          borderWidth: 1,
+          borderColor: "#ccc",
+          borderRadius: 8,
+          paddingHorizontal: 12,
+          marginBottom: 12,
+        }}
+      />
+
+      <FlatList
+        data={filteredBooks}
+        keyExtractor={(item) => item._id!}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => handleSelectBook(item)}
             style={{
-              backgroundColor: "white",
-              borderRadius: 10,
-              padding: 16,
-              flex: 1,
+              paddingVertical: 10,
+              borderBottomWidth: 1,
+              borderColor: "#eee",
             }}
           >
-            <TextInput
-              autoFocus
-              placeholder="Search by title or author..."
-              value={searchQuery}
-              onChangeText={handleSearchChange}
-              style={{
-                height: 40,
-                borderWidth: 1,
-                borderColor: "#ccc",
-                borderRadius: 8,
-                paddingHorizontal: 12,
-              }}
-            />
-            <FlatList
-              data={filteredBooks}
-              keyExtractor={(item) => item._id!}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => handleSelectBook(item)}
-                  style={{
-                    paddingVertical: 10,
-                    borderBottomWidth: 1,
-                    borderColor: "#eee",
-                  }}
-                >
-                  <Text style={{ fontSize: 16, fontWeight: "bold" }}>{item.title}</Text>
-                  <Text style={{ fontSize: 14, color: "#555" }}>{item.author}</Text>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        </View>
-      </Modal>
+            <Text style={{ fontSize: 16, fontWeight: "bold" }}>{item.title}</Text>
+            <Text style={{ fontSize: 14, color: "#555" }}>{item.author}</Text>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  </View>
+</Modal>
+
     </View>
   );
 }

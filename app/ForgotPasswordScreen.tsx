@@ -1,40 +1,47 @@
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
-
 // ✅ Remove this line: import { API_BASE } from "../constants";
 
 const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-
+  const router = useRouter();
   const API_BASE = "https://api-backend-urlr.onrender.com"; // keep this
 
   const handleSendReset = async () => {
-    setLoading(true);
-    setMessage("");
+  setLoading(true);
+  setMessage("");
 
-    try {
-      const res = await fetch(`${API_BASE}/students/forgot-password`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+  try {
+    const res = await fetch(`${API_BASE}/api/students/forgot-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setMessage(data.message || "Failed to generate reset token");
+    } else {
+      // 🔹 Navigate to ResetPasswordScreen with email + token
+      router.push({
+        pathname: "/ResetPasswordScreen",
+        params: { email, token: data.token },
       });
-
-      const data = await res.json();
-      if (!res.ok) {
-        setMessage(data.message || "Failed to send reset email");
-      } else {
-        setMessage("Password reset email sent! Check your inbox.");
-      }
-    } catch (err) {
-      console.error(err);
-      setMessage("Network error. Please try again.");
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (err) {
+    console.error(err);
+    setMessage("Network error. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 
   return (
     <View className="flex-1 justify-center items-center bg-white p-4">

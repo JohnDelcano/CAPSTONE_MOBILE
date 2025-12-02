@@ -31,7 +31,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  // 🔹 Load notifications from AsyncStorage
+  // Load notifications from AsyncStorage
   useEffect(() => {
     (async () => {
       const saved = await AsyncStorage.getItem("notifications");
@@ -39,73 +39,83 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
     })();
   }, []);
 
-  // 🔹 Save to AsyncStorage whenever notifications change
+  // Save notifications whenever they change
   useEffect(() => {
     AsyncStorage.setItem("notifications", JSON.stringify(notifications));
   }, [notifications]);
 
-  // 🔹 Add new notification
   const addNotification = (notif: Notification) => {
     setNotifications((prev) => [notif, ...prev]);
   };
 
-  // 🔹 Mark all as read
   const markAllAsRead = () => {
-    setNotifications((prev) =>
-      prev.map((n) => ({
-        ...n,
-        read: true,
-      }))
-    );
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
   };
 
-  // 🔹 Mark a specific notification as read
   const markAsRead = (id: string) => {
     setNotifications((prev) =>
       prev.map((n) => (n.id === id ? { ...n, read: true } : n))
     );
   };
 
-  // 🔹 Unread count
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  // 🔹 Listen to socket events
+  // Listen to socket events
   useEffect(() => {
     const setupSocket = async () => {
       const socket = await joinUserRoom();
       if (!socket) return;
 
+      // 🔹 Reservation created by user
+      socket.on("reservationCreated", (data: any) => {
+        const bookTitle = data?.bookTitle || data?.book?.title || "Unknown Book";
+        addNotification({
+          id: `${Date.now()}-${Math.random()}`,
+          title: "Reservation Made",
+          message: `You reserved the book "${bookTitle}".`,
+          date: new Date().toLocaleString(),
+          read: false,
+        });
+      });
+
+      // 🔹 Reservation approved by admin
       socket.on("reservationApproved", (data: any) => {
+        const bookTitle = data?.bookTitle || data?.book?.title || "Unknown Book";
         addNotification({
           id: `${Date.now()}-${Math.random()}`,
           title: "Reservation Approved",
-          message: `Your reservation for "${data.bookTitle}" was approved.`,
+          message: `Your reservation for "${bookTitle}" was approved.`,
           date: new Date().toLocaleString(),
           read: false,
         });
       });
 
+      // 🔹 Reservation cancelled by admin
       socket.on("reservationCancelled", (data: any) => {
+        const bookTitle = data?.bookTitle || data?.book?.title || "Unknown Book";
         addNotification({
           id: `${Date.now()}-${Math.random()}`,
           title: "Reservation Cancelled",
-          message: `Your reservation for "${data.bookTitle}" was cancelled.`,
+          message: `Your reservation for "${bookTitle}" was cancelled.`,
           date: new Date().toLocaleString(),
           read: false,
         });
       });
 
+      // 🔹 Book returned
       socket.on("bookReturned", (data: any) => {
+        const bookTitle = data?.Title || data?.book?.title || "Unknown Book";
         addNotification({
           id: `${Date.now()}-${Math.random()}`,
           title: "Book Returned",
-          message: `The book "${data.Title}" has been returned.`,
+          message: `The book "${bookTitle}" has been returned.`,
           date: new Date().toLocaleString(),
           read: false,
         });
       });
 
       return () => {
+        socket.off("reservationCreated");
         socket.off("reservationApproved");
         socket.off("reservationCancelled");
         socket.off("bookReturned");
@@ -113,10 +123,6 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     setupSocket();
-
-    return () => {
-      // Cleanup is done by the return inside `setupSocket` function
-    };
   }, []);
 
   return (

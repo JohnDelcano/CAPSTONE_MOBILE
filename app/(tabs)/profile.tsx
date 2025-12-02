@@ -368,20 +368,33 @@ const Profile = () => {
         )}
 
         {/* ===== Help ===== */}
-        <TouchableOpacity
-          onPress={() => toggleSection("help")}
-          className="bg-gray-100 py-4 px-5 rounded-2xl mb-3 shadow-sm"
-        >
-          <Text className="text-gray-800 text-base">Help</Text>
-        </TouchableOpacity>
+<TouchableOpacity
+  onPress={() => toggleSection("help")}
+  className="bg-gray-100 py-4 px-5 rounded-2xl mb-3 shadow-sm"
+>
+  <Text className="text-gray-800 text-base">Help</Text>
+</TouchableOpacity>
 
-        {expandedSection === "help" && (
-          <View className="bg-gray-50 p-4 rounded-2xl mb-4">
-            <Text className="text-gray-600">
-              For help, contact your school administrator or support team.
-            </Text>
-          </View>
-        )}
+{expandedSection === "help" && (
+  <View className="bg-gray-50 p-4 rounded-2xl mb-4">
+    <Text className="text-gray-600 mb-2">
+      Welcome to the librosync application! Follow these steps to use the app:
+    </Text>
+    <Text className="text-gray-600 mb-1">
+      1. <Text className="font-semibold">Register an account</Text> and login. Your account must be verified by the admin before you can reserve books.
+    </Text>
+    <Text className="text-gray-600 mb-1">
+      2. <Text className="font-semibold">Reserve a book</Text> through the app. You must pick it up within 2 hours and bring a valid ID to the library.
+    </Text>
+    <Text className="text-gray-600 mb-1">
+      3. Once the admin approves your reservation, <Text className="font-semibold">borrowed books must be returned by the given due date</Text>.
+    </Text>
+    <Text className="text-gray-600 mt-2">
+      Make sure to follow these steps to avoid any issues with your reservations.
+    </Text>
+  </View>
+)}
+
 
         {/* ===== About ===== */}
         <TouchableOpacity
@@ -393,9 +406,13 @@ const Profile = () => {
 
         {expandedSection === "about" && (
           <View className="bg-gray-50 p-4 rounded-2xl mb-4">
-            <Text className="text-gray-600">
-              EduLink v1.0 — A student management platform built for seamless
-              school communication.
+            <Text className="text-center">MISSION</Text>
+            <Text className="text-gray-600 text-center">
+              Pangunahin sa aming adhikain ay ang mapaigting pa ang interes ng mga bata sa pagbabasa dahil iba pa rin ang naibibigay na kasiyahan ng pagbabasa. Nais din naming makatulong na mapalawak ang kaalaman at karunungan ng mga bata.
+            </Text>
+            <Text className="mt-6 text-center">VISION</Text>
+            <Text className="text-gray-600 text-center">
+              Ang magkaroon ng mga mamamayan na sagana sa karunungan upang makapaghahatid ng masaganang pamumuhay sa bawat pamilya at makadaragdag sa kaunlaran ng ating bayan.
             </Text>
           </View>
         )}
@@ -415,57 +432,66 @@ const Profile = () => {
       {/* ===== Edit Modal ===== */}
       <Modal visible={editModalVisible} animationType="slide" transparent>
         <View className="flex-1 justify-center items-center bg-black/50">
-          <ScrollView className="bg-white p-6 rounded-2xl w-[85%] max-h-[73%] shadow-lg">
-            <Text className="text-xl font-bold mb-4 text-center text-blue-600">
-              Edit Profile
-            </Text>
-            {(
-              [
-                "firstName",
-                "lastName",
-                "phone",
-                "address",
-                "grade",
-                "schoolname",
-                "guardianname",
-                "guardian",
-                "gender",
-              ] as (keyof Student)[]
-            ).map((field) => (
-              <TextInput
-                key={field}
-                value={editData[field] || ""}
-                onChangeText={(text) =>
-                  setEditData({ ...editData, [field]: text })
-                }
-                placeholder={field.replace(/^\w/, (c) => c.toUpperCase())}
-                className="border border-gray-300 rounded-lg p-2 mb-3"
-              />
-            ))}
+          <ScrollView className="bg-white p-6 rounded-2xl w-[85%] max-h-[73%] shadow-lg" contentContainerStyle={{ paddingBottom: 40 }}>
+  <Text className="text-xl font-bold mb-4 text-center text-blue-600">
+    Edit Profile
+  </Text>
 
-            <LinearGradient
-              colors={["#43435E", "#55556a"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              className="rounded-lg mt-3"
-            >
-              <TouchableOpacity
-                className="p-3 rounded-lg"
-                onPress={handleSaveProfile}
-              >
-                <Text className="text-white text-center font-semibold">
-                  Save Changes
-                </Text>
-              </TouchableOpacity>
-            </LinearGradient>
+  {(
+    [
+      "firstName",
+      "lastName",
+      "phone",
+      "address",
+      "grade",
+      "schoolname",
+      "guardianname",
+      "guardian",
+      "gender",
+    ] as (keyof Student)[]
+  ).map((field) => (
+    <View key={field} className="mb-3">
+      {/* Title / Label */}
+      <Text className="text-gray-700 font-semibold mb-1">
+        {field.replace(/^\w/, (c) => c.toUpperCase())}
+      </Text>
 
-            <TouchableOpacity
-              className="mt-5"
-              onPress={() => setEditModalVisible(false)}
-            >
-              <Text className="text-center text-gray-500">Cancel</Text>
-            </TouchableOpacity>
-          </ScrollView>
+      {/* Input */}
+      <TextInput
+        value={editData[field] || ""}
+        onChangeText={(text) =>
+          setEditData({ ...editData, [field]: text })
+        }
+        placeholder={`Enter ${field.replace(/^\w/, (c) => c.toUpperCase())}`}
+        className="border border-gray-300 rounded-lg p-2"
+      />
+    </View>
+  ))}
+
+  <LinearGradient
+    colors={["#43435E", "#55556a"]}
+    start={{ x: 0, y: 0 }}
+    end={{ x: 1, y: 1 }}
+    className="rounded-lg mt-3"
+  >
+    <TouchableOpacity
+      className="p-3 rounded-lg"
+      onPress={handleSaveProfile}
+    >
+      <Text className="text-white text-center font-semibold">
+        Save Changes
+      </Text>
+    </TouchableOpacity>
+  </LinearGradient>
+
+  <TouchableOpacity
+    className="mt-5"
+    onPress={() => setEditModalVisible(false)}
+  >
+    <Text className="text-center text-gray-500">Cancel</Text>
+  </TouchableOpacity>
+</ScrollView>
+
         </View>
       </Modal>
 

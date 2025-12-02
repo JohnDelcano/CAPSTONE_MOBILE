@@ -106,7 +106,7 @@ export default function TabsLayout() {
             ),
           tabBarLabel: ({ focused }) => (
             <Text className="text-[15px] mt-1" style={{ color: focused ? "black" : "gray" }}>
-              Profile
+              Account
             </Text>
           ),
         }}

@@ -17,7 +17,7 @@ const ResetPasswordScreen = () => {
     setMessage("");
 
     try {
-      const res = await fetch(`${API_BASE}/students/reset-password`, {
+      const res = await fetch(`${API_BASE}/api/students/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, token, newPassword }),

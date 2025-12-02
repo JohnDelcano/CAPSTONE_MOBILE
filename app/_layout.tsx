@@ -17,7 +17,7 @@ export default function RootLayout() {
                 name="index"
                 options={{ headerShown: false }}
               />
-              <Stack.Screen name="signin" options={{ title: "" }} />
+              <Stack.Screen name="signin" options={{ title: "",  }} />
               <Stack.Screen name="signup" options={{ title: "", headerShown: false }} />
               <Stack.Screen
                 name="(tabs)"

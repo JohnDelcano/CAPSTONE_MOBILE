@@ -1064,9 +1064,10 @@ const pickAndUploadProfileImage = async () => {
         <Text className="mb-[-5] text-lg">Password</Text>
         <View className="flex-row items-center border-b-2 border-black-500">
           <TextInput
-            className="flex-1 text-lg px-2 pb-2 bg-transparent"
+            className="flex-1 text-lg px-2 pb-2"
             placeholder="Create your password"
             placeholderTextColor="#888"
+            style={{ color: "#000" }}
             secureTextEntry={!showPassword}
             value={account.password}
             onChangeText={t => {
@@ -1102,9 +1103,10 @@ const pickAndUploadProfileImage = async () => {
         <Text className="mb-[-5] mt-6 text-lg">Confirm Password</Text>
         <View className="flex-row items-center border-b-2 border-black-500">
           <TextInput
-            className="flex-1 text-lg px-2 pb-2 bg-transparent"
+            className="flex-1 text-lg px-2 pb-2"
             placeholder="Confirm your password"
             placeholderTextColor="#888"
+            style={{ color: "#000" }}
             secureTextEntry={!confirmshowPassword}
             value={confirmPassword}
             onChangeText={setConfirmPassword}

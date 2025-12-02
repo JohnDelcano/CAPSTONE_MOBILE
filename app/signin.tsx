@@ -160,8 +160,9 @@ const Signin = () => {
               <TextInput
                 placeholder="Enter your password"
                 placeholderTextColor="#888"
-                className="flex-1 text-lg px-2 pb-2 bg-transparent"
+                className="flex-1 text-lg px-2 pb-2"
                 secureTextEntry={!showPassword}
+                style={{ color: "#000" }}
                 value={password}
                 onChangeText={setPassword}
               />
